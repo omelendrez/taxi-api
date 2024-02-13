@@ -49,7 +49,7 @@ app.use(
 )
 
 app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Express + TypeScript Server' })
+  res.json({ message: 'Welcome to Taxi API 🚕' })
 })
 
 app.listen(port, () => {
