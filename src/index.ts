@@ -1,9 +1,11 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express } from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import logger from 'morgan'
 
 import { whitelist } from './utils/whiteList'
+
+import { routes } from './routes'
 
 dotenv.config()
 
@@ -48,8 +50,10 @@ app.use(
   })
 )
 
-app.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Welcome to Taxi API 🚕' })
+app.use('/', routes)
+
+app.use('/', (req, res) => {
+  res.status(400).json({ message: 'Resource does not exist 😕' })
 })
 
 app.listen(port, () => {
