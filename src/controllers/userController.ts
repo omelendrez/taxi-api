@@ -1,6 +1,25 @@
 import { Request, Response } from 'express'
 
-import user from '../db/users'
+import user, { InsertResult } from '../db/users'
+
+export const create = (req: Request, res: Response) => {
+  user
+    .addNew(req.body)
+    .then((insertResult: InsertResult) => {
+      // .then for async call
+      res.status(201).send({
+        status: 'OK',
+        result: insertResult
+      })
+    })
+    .catch((err) => {
+      res.status(500).send({
+        status: err.status,
+        code: err.code,
+        message: err.message
+      })
+    })
+}
 
 export const getAll = (req: Request, res: Response) => {
   user
@@ -8,14 +27,15 @@ export const getAll = (req: Request, res: Response) => {
     .then((users) => {
       // .then for async call
       res.status(200).send({
-        message: 'OK',
+        status: 'OK',
         result: users
       })
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'DATABASE ERROR',
-        error: err.code
+        status: 'DATABASE ERROR',
+        code: err.code,
+        message: err.message
       })
     })
 }
@@ -26,14 +46,15 @@ export const getOne = (req: Request, res: Response) => {
     .then((users) => {
       // .then for async call
       res.status(200).send({
-        message: 'OK',
+        status: 'OK',
         result: users
       })
     })
     .catch((err) => {
       res.status(500).send({
-        message: 'DATABASE ERROR',
-        error: err.code
+        status: 'DATABASE ERROR',
+        code: err.code,
+        message: err.message
       })
     })
 }

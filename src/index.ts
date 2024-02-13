@@ -50,7 +50,7 @@ app.use(
   })
 )
 
-app.use('/', routes)
+app.use('/api/v1', routes)
 
 app.use('/', (req, res) => {
   res.status(400).json({ message: 'Resource does not exist 😕' })

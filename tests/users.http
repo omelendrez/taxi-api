@@ -1,0 +1,16 @@
+GET http://localhost:3004/api/v1/users HTTP/1.1
+
+###
+
+POST http://localhost:3004/api/v1/users HTTP/1.1
+content-type: application/json
+
+{
+    "name": "hermenegildo",
+    "firstName": "",
+    "lastName": "",
+    "email": "",
+    "mobile": "",
+    "password": "mendigo",
+    "role": 3
+}
