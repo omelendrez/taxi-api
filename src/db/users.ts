@@ -14,4 +14,22 @@ const selectAll = (): Promise<User[]> => {
     })
   })
 }
-export default { selectAll }
+
+const getById = (id: number): Promise<User> => {
+  return new Promise((resolve, reject) => {
+    connection.getConnection((err, conn) => {
+      conn.query(
+        `SELECT * FROM users WHERE id=${id};`,
+        (err, resultSet: User) => {
+          conn.release()
+          if (err) {
+            return reject(err)
+          }
+          return resolve(resultSet)
+        }
+      )
+    })
+  })
+}
+
+export default { selectAll, getById }
