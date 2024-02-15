@@ -1,8 +1,10 @@
 import express, { Express } from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import helmet from 'helmet'
 import logger from 'morgan'
-
+import csrf from 'csurf'
+import compression from 'compression'
 import { whitelist } from './utils/whiteList'
 
 import { routes } from './routes'
@@ -10,6 +12,10 @@ import { routes } from './routes'
 dotenv.config()
 
 const app: Express = express()
+app.disable('x-powered-by')
+app.use(helmet())
+app.use(compression())
+
 const port: string = process.env.PORT != null ? process.env.PORT : '3000'
 
 app.use(
@@ -59,3 +65,5 @@ app.use('/', (req, res) => {
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`)
 })
+
+app.use(csrf())

@@ -2,12 +2,12 @@ import { Request, Response, NextFunction } from 'express'
 import type { JwtPayload } from 'jsonwebtoken'
 
 import { verifyToken } from '../utils/auth'
-// Even this type alias is being used in the code below,
-// eslint still shows error 'var not in use' ?!?!?
-// So I disabled eslint for this line
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import type { TOFIX } from '../entities/common'
+// Even TOFIX type alias is being used in the code below (error catch),
+// eslint still shows error 'var not in use' ?!?!?
+// So I disabled eslint for this line
 
 export const validateToken = async (
   req: Request & { decoded?: JwtPayload },
