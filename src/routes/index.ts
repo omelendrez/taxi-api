@@ -1,8 +1,2 @@
-import express from 'express'
-import { defaultRoute } from './defaultRoute'
-import { userRoute } from './userRoute'
-
-export const routes = express.Router()
-
-routes.use(defaultRoute)
-routes.use(userRoute)
+export { default as defaultRouter } from './defaultRoutes'
+export { default as userRouter } from './userRoutes'

@@ -4,7 +4,7 @@ import type { JwtPayload } from 'jsonwebtoken'
 import { verifyToken } from '../utils/auth'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import type { TOFIX } from '../entities/common'
+import type { TOFIX } from '../interfaces/common'
 // Even TOFIX type alias is being used in the code below (error catch),
 // eslint still shows error 'var not in use' ?!?!?
 // So I disabled eslint for this line

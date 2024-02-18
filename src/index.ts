@@ -7,7 +7,7 @@ import csrf from 'csurf'
 import compression from 'compression'
 import { whitelist } from './utils/whiteList'
 
-import { routes } from './routes'
+import { defaultRouter, userRouter } from './routes'
 
 dotenv.config()
 
@@ -56,7 +56,10 @@ app.use(
   })
 )
 
-app.use('/api/v1', routes)
+const apiVersion = '/api/v1'
+
+app.use(apiVersion, defaultRouter)
+app.use(apiVersion, userRouter)
 
 app.use('/', (req, res) => {
   res.status(400).json({ message: 'Resource does not exist 😕' })

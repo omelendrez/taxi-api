@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
-import { User } from '../entities/user'
+import { User } from '../entities/User'
 
 const secret: string = process.env.JWT_SECRET ?? ''
 

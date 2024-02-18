@@ -1,60 +1,48 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
+import { IUserInteractor } from '../interfaces/IUserInteractor'
 
-import user, { InsertResult } from '../db/users'
+export class UserController {
+  private interactor: IUserInteractor
 
-export const create = (req: Request, res: Response) => {
-  user
-    .addNew(req.body)
-    .then((insertResult: InsertResult) => {
-      // .then for async call
-      res.status(201).json({
-        status: 'OK',
-        result: insertResult
-      })
-    })
-    .catch((err) => {
-      res.status(500).json({
-        status: err.status,
-        code: err.code,
-        message: err.message
-      })
-    })
-}
+  constructor(interactor: IUserInteractor) {
+    this.interactor = interactor
+  }
 
-export const getAll = (req: Request, res: Response) => {
-  user
-    .selectAll()
-    .then((users) => {
-      // .then for async call
-      res.status(200).json({
-        status: 'OK',
-        result: users
-      })
-    })
-    .catch((err) => {
-      res.status(500).json({
-        status: 'DATABASE ERROR',
-        code: err.code,
-        message: err.message
-      })
-    })
-}
+  async onCreateUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const body = req.body
 
-export const getOne = (req: Request, res: Response) => {
-  user
-    .getById(Number(req.params.id))
-    .then((users) => {
-      // .then for async call
-      res.status(200).json({
-        status: 'OK',
-        result: users
-      })
-    })
-    .catch((err) => {
-      res.status(500).json({
-        status: 'DATABASE ERROR',
-        code: err.code,
-        message: err.message
-      })
-    })
+      const data = await this.interactor.createUser(body)
+
+      return res.status(201).json(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async onUpdateUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = parseInt(req.params.id)
+      const body = req.body
+
+      const data = await this.interactor.updateUser(id, body)
+
+      return res.status(200).json(data)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async onGetUsers(req: Request, res: Response, next: NextFunction) {
+    try {
+      const offset = parseInt(`${req.query.offset}`) || 0
+      const limit = parseInt(`${req.query.limit}`) || 20
+
+      const data = await this.interactor.getUsers(limit, offset)
+
+      return res.status(200).json(data)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
